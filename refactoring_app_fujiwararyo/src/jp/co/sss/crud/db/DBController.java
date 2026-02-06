@@ -11,7 +11,9 @@ import java.sql.Types;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 
+import jp.co.sss.crud.util.ConstantMsg;
 import jp.co.sss.crud.util.ConstantSQL;
+import jp.co.sss.crud.util.ConstantValue;
 
 /**
  * DB操作処理用のクラス
@@ -47,29 +49,29 @@ public class DBController {
 
 			//resultSetの結果Setがない場合はfalse
 			if (!resultSet.isBeforeFirst()) {
-				System.out.println("該当者はいませんでした");
+				System.out.println(ConstantMsg.QUALIFIED_PERSON_NOT_HERE);
 				return;
 			}
 
 			// レコードを出力
-			System.out.println("社員ID\t社員名\t性別\t生年月日\t部署名");
+			System.out.println(ConstantMsg.EMPLOYEE_INFORMATION);
 			while (resultSet.next()) {
 				System.out.print(resultSet.getString("emp_id") + "\t");
 				System.out.print(resultSet.getString("emp_name") + "\t");
 
 				int gender = Integer.parseInt(resultSet.getString("gender"));
 				switch (gender) {
-				case 0:
-					System.out.print("回答なし" + "\t");
+				case ConstantValue.NO_ANSWER:
+					System.out.print(ConstantMsg.NO_ANSWER_STRING);
 					break;
-				case 1:
-					System.out.print("男性" + "\t");
+				case ConstantValue.GENTLEMAN:
+					System.out.print(ConstantMsg.GENTLEMAN_STRING);
 					break;
-				case 2:
-					System.out.print("女性" + "\t");
+				case ConstantValue.WOMAN:
+					System.out.print(ConstantMsg.WOMAN_STRING);
 					break;
-				case 9:
-					System.out.print("その他" + "\t");
+				case ConstantValue.OTHERS:
+					System.out.print(ConstantMsg.OTHERS_STRING);
 				}
 				
 				
@@ -135,11 +137,11 @@ public class DBController {
 			// SQL文を実行
 			resultSet = preparedStatement.executeQuery();
 			if (!resultSet.isBeforeFirst()) {
-				System.out.println("該当者はいませんでした");
+				System.out.println(ConstantMsg.QUALIFIED_PERSON_NOT_HERE);
 				return;
 			}
 
-			System.out.println("社員ID\t社員名\t性別\t生年月日\t部署名");
+			System.out.println(ConstantMsg.EMPLOYEE_INFORMATION);
 			while (resultSet.next()) {
 				System.out.print(resultSet.getString("emp_id"));
 				System.out.print("\t");
@@ -151,16 +153,17 @@ public class DBController {
 				int gender = Integer.parseInt(genderString);
 				
 				switch (gender) {
-				case 0:
-					System.out.print("回答なし" + "\t");
+				case ConstantValue.NO_ANSWER:
+					System.out.print(ConstantMsg.NO_ANSWER_STRING);
 					break;
-				case 1:
-					System.out.print("男性" + "\t");
+				case ConstantValue.GENTLEMAN:
+					System.out.print(ConstantMsg.GENTLEMAN_STRING);
 					break;
-				case 2:
-					System.out.print("女性" + "\t");
+				case ConstantValue.WOMAN:
+					System.out.print(ConstantMsg.WOMAN_STRING);
 					break;
-
+				case ConstantValue.OTHERS:
+					System.out.print(ConstantMsg.OTHERS_STRING);
 				}
 //				if (gender == 0) {
 //					System.out.print("回答なし");
@@ -175,7 +178,7 @@ public class DBController {
 //
 //				}
 
-//				System.out.print("\t");
+				System.out.print("\t");
 				System.out.print(resultSet.getString("birthday"));
 				System.out.print("\t");
 
@@ -225,11 +228,11 @@ public class DBController {
 			resultSet = preparedStatement.executeQuery();
 
 			if (!resultSet.isBeforeFirst()) {
-				System.out.println("該当者はいませんでした");
+				System.out.println(ConstantMsg.QUALIFIED_PERSON_NOT_HERE);
 				return;
 			}
 
-			System.out.println("社員ID\t社員名\t性別\t生年月日\t部署名");
+			System.out.println(ConstantMsg.EMPLOYEE_INFORMATION);
 			while (resultSet.next()) {
 				System.out.print(resultSet.getString("emp_id"));
 				System.out.print("\t");
@@ -241,16 +244,17 @@ public class DBController {
 				int gender = Integer.parseInt(genderString);	
 				
 				switch (gender) {
-				case 0:
-					System.out.print("回答なし" + "\t");
+				case ConstantValue.NO_ANSWER:
+					System.out.print(ConstantMsg.NO_ANSWER_STRING);
 					break;
-				case 1:
-					System.out.print("男性" + "\t");
+				case ConstantValue.GENTLEMAN:
+					System.out.print(ConstantMsg.GENTLEMAN_STRING);
 					break;
-				case 2:
-					System.out.print("女性" + "\t");
+				case ConstantValue.WOMAN:
+					System.out.print(ConstantMsg.WOMAN_STRING);
 					break;
-
+				case ConstantValue.OTHERS:
+					System.out.print(ConstantMsg.OTHERS_STRING);
 				}
 //				if (gender == 0) {
 //					System.out.print("回答なし");
@@ -271,12 +275,12 @@ public class DBController {
 
 				String deptIdString = resultSet.getString("dept_id");
 				int findByDeptId = Integer.parseInt(deptIdString);
-				if (findByDeptId == 1) {
-					System.out.println("営業部");
-				} else if (findByDeptId == 2) {
-					System.out.println("経理部");
-				} else if (findByDeptId == 3) {
-					System.out.println("総務部");
+				if (findByDeptId == ConstantValue.SALES_DEPARTMENT) {
+					System.out.println(ConstantMsg.SALES_DEPARTMENT_STRING);
+				} else if (findByDeptId == ConstantValue.ACCOUNTING_DEPARTMENT) {
+					System.out.println(ConstantMsg.ACCOUNTING_DEPARTMENT);
+				} else if (findByDeptId == ConstantValue.GENERAL_AFFAIRS_DEPARTMENT) {
+					System.out.println(ConstantMsg.GENERAL_AFFAIRS_DEPARTMENT_STRING);
 
 				}
 			}
@@ -326,7 +330,7 @@ public class DBController {
 			preparedStatement.executeUpdate();
 
 			// 登録完了メッセージを出力
-			System.out.println("社員情報を登録しました");
+			System.out.println(ConstantMsg.EMPLOYEE_DATA_INSERT_STRING);
 		} finally {
 			DBManager.close(preparedStatement);
 			DBManager.close(connection);
@@ -355,17 +359,17 @@ public class DBController {
 			// ステートメントの作成
 			preparedStatement = connection.prepareStatement(ConstantSQL.SQL_UPDATE);
 
-			System.out.print("社員名：");
+			System.out.print(ConstantMsg.EMPLOYEE_NAME_STRING);
 			String employeeName = br.readLine();
 			// 性別を入力
-			System.out.print("性別(0:回答しない, 1:男性, 2:女性,):");
+			System.out.print(ConstantMsg.GENDER_INPUT_STRING);
 			String gender = br.readLine();
 			// 誕生日を入力
-			System.out.print("生年月日(西暦年/月/日)：");
+			System.out.print(ConstantMsg.BIRTHDAY_STRING);
 			String birthday = br.readLine();
 
 			// 部署IDを入力
-			System.out.print("部署ID(1：営業部、2：経理部、3：総務部)：");
+			System.out.print(ConstantMsg.DEPARTMENT_ID_STRING);
 			String departmentId = br.readLine();
 
 			// 入力値をバインド
@@ -413,7 +417,7 @@ public class DBController {
 			// SQL文の実行(失敗時は戻り値0)
 			preparedStatement.executeUpdate();
 
-			System.out.println("社員情報を削除しました");
+			System.out.println(ConstantMsg.EMPLOYEE_DATA_DELETE_STRING);
 
 		} catch (Exception e) {
 			e.printStackTrace();
